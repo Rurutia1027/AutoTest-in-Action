@@ -94,7 +94,6 @@ Recommended Stack for Current Scenario:
 - Recommended Tool / Library: PyTest HTML / JSON reports 
 - Role: Consolidate results with VDT evidence
 
-
 **Trade-Offs**:
 - **Playwright vs Selenium**: Playwright provides more modern API, better support for dynamic UIs, headless execution, and snapshotting; Selenium is legacy but widely used. 
 - **Behave vs PyTest-BDD**: Behave is more Pythonic and integrates well with snapshot-based VDT; PyTest-BDD keeps the stack within PyTest ecosystem. 
