@@ -12,7 +12,7 @@ jobs:
   pytest-in-action:
     runs-on: ubuntu-latest
     env:
-      PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
+      PROMETHEUS_URL: http://localhost:9090
 
     defaults:
       run:
