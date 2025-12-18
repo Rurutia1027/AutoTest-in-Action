@@ -1,0 +1,26 @@
+name: selenium-in-action-ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  selenium-in-action:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./selenium-in-action
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'

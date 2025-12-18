@@ -1,4 +1,4 @@
-# PyTest-in-Actoin: MySQL + Prometheus + BDD 
+# PyTest-in-Action: MySQL + Prometheus + BDD | [![pytest-in-action-ci](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/pytest-in-action.yml/badge.svg)](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/pytest-in-action.yml) 
 ## High-Level Architecture 
 **Components:**
 - MySQL - Main database service for functional testing. 
