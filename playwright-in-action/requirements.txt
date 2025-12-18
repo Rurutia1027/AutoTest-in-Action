@@ -1,0 +1,33 @@
+# ------------------------
+# Core Test Framework
+# ------------------------
+pytest>=8.0.0
+pytest-xdist>=3.5.0          # parallel test execution
+pytest-timeout>=2.3.1        # prevent hanging DB tests
+pytest-html>=4.1.1           # HTML test reports
+
+# ------------------------
+# PostgreSQL Access
+# ------------------------
+psycopg2-binary>=2.9.9       # PostgreSQL driver (stable, widely used)
+
+# ------------------------
+# Data & Utilities
+# ------------------------
+python-dotenv>=1.0.1         # environment variable management
+faker>=24.0.0                # realistic test data generation
+
+# ------------------------
+# HTTP / API Testing (Future: Prometheus / Grafana / Alertmanager)
+# ------------------------
+requests>=2.32.0
+
+# ------------------------
+# BDD Support (PyTest-native)
+# ------------------------
+pytest-bdd>=7.1.2
+
+# ------------------------
+# Visual / UI Testing (Future, not used yet)
+# ------------------------
+playwright>=1.43.0           # for Grafana UI & VDT (install browsers later)
