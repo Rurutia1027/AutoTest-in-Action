@@ -2,7 +2,6 @@ import os
 import requests
 import pytest
 from dotenv import load_dotenv
-from pathlib import Path
 
 # load env variables
 load_dotenv()
