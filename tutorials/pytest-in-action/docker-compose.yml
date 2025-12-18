@@ -15,7 +15,7 @@ services:
     volumes:
       - pytest_pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U test"]
+      test: [ "CMD-SHELL", "pg_isready -U test" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -36,13 +36,29 @@ services:
     image: prom/prometheus:latest
     container_name: prometheus
     restart: always
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     depends_on:
       - postgres-exporter
-      
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: always
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager"
+    volumes:
+      - ./configs/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - alertmanager_data:/alertmanager
+    ports:
+      - "9093:9093"
+
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -50,9 +66,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/etc/grafana/dashboards
-
+      - grafana_data:/var/lib/grafana
+      - ./configs/grafana/provisioning:/etc/grafana/provisioning
+      - ./configs/grafana/dashboards:/etc/grafana/dashboards
 
 volumes:
   pytest_pg_data:
+  grafana_data:
+  alertmanager_data:
