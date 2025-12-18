@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./pytest-in-action  # <-- focus on pytest-in-action folder
+        working-directory: ./selenium-in-action
 
     steps:
       - name: Checkout repository
@@ -33,20 +33,3 @@ jobs:
       - name: Start test environment via Docker Compose
         run: docker compose up -d
 
-      - name: Wait for services to be healthy
-        run: |
-            echo "Waiting for services to be ready..."
-            sleep 30
-            docker compose -f docker-compose.yml ps
-
-             
-      - name: Run PyTest
-        run: |
-          pytest src/tests \
-            --junitxml=reports/test_results.xml \
-            --html=reports/test_results.html \
-            --self-contained-html -v
-
-      - name: Tear down Docker Compose environment
-        if: always()
-        run: docker compose down -v
