@@ -1,0 +1,48 @@
+name: pytest-in-action-ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./pytest-in-action  # <-- focus on pytest-in-action folder
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Start test environment via Docker Compose
+        run: docker compose up -d
+
+      - name: Wait for services to be healthy
+        run: sleep 20  # optionally implement healthcheck loop
+
+      - name: Run PyTest
+        run: |
+          pytest src/tests \
+            --junitxml=reports/test_results.xml \
+            --html=reports/test_results.html \
+            --self-contained-html -v
+
+      - name: Tear down Docker Compose environment
+        if: always()
+        run: docker compose down -v
