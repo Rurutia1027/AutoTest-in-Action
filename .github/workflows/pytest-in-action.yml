@@ -11,6 +11,8 @@ on:
 jobs:
   pytest-in-action:
     runs-on: ubuntu-latest
+    env:
+      PROMETHEUS_URL: ${{ secrets.PROMETHEUS_URL }}
 
     defaults:
       run:

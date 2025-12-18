@@ -4,7 +4,7 @@ from psycopg2.extras import RealDictCursor
 from datetime import datetime
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def pg_connection():
     """Establish a connection to PostgresSQL database."""
     conn = psycopg2.connect(
@@ -18,7 +18,7 @@ def pg_connection():
     conn.close()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def pg_cursor(pg_connection):
     """Get a cursor for each test"""
     cursor = pg_connection.cursor(cursor_factory=RealDictCursor)
