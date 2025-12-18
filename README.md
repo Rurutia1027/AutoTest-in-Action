@@ -1,8 +1,8 @@
 # AutoTest-in-Action
 
 - [PyTest-in-Action](./pytest-in-action/) | [![pytest-in-action-ci](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/pytest-in-action.yml/badge.svg)](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/pytest-in-action.yml)
-- [Playwright-in-Action](./playwright-in-action/) | 
-- [Selenium-in-Action](./selenium-in-action/) | 
+- [Playwright-in-Action](./playwright-in-action/) | [![playwright-in-action-ci](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/playwright-in-action.yml/badge.svg)](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/playwright-in-action.yml)
+- [Selenium-in-Action](./selenium-in-action/) | [![selenium-in-action-ci](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/selenium-in-action.yml/badge.svg)](https://github.com/Rurutia1027/AutoTest-in-Action/actions/workflows/selenium-in-action.yml)
 
 **_BDD-Orchestrated Visual Regression Testing Project_**
 
