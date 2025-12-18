@@ -11,6 +11,8 @@ on:
 jobs:
   pytest-in-action:
     runs-on: ubuntu-latest
+    env:
+      PROMETHEUS_URL: http://localhost:9090
 
     defaults:
       run:
@@ -39,7 +41,6 @@ jobs:
             sleep 30
             docker compose -f docker-compose.yml ps
 
-             
       - name: Run PyTest
         run: |
           pytest src/tests \

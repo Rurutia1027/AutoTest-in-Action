@@ -38,8 +38,12 @@ services:
     restart: always
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--web.enable-lifecycle"
+      - "--storage.tsdb.path=/prometheus"
     volumes:
+      - prometheus_data:/prometheus
       - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus/rules:/etc/prometheus/rules
     ports:
       - "9090:9090"
     depends_on:
@@ -74,3 +78,4 @@ volumes:
   pytest_pg_data:
   grafana_data:
   alertmanager_data:
+  prometheus_data:

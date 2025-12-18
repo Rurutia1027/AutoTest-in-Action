@@ -1,0 +1,10 @@
+groups:
+- name: test_alert_group
+  rules:
+  - alert: TestPostgresConnectionsHigh
+    expr: pg_stat_activity_count > 0
+    for: 5s
+    labels:
+      severity: test
+    annotations:
+      summary: "Test alert generated for CI/testing"

@@ -31,3 +31,5 @@ pytest-bdd>=7.1.2
 # Visual / UI Testing (Future, not used yet)
 # ------------------------
 playwright>=1.43.0           # for Grafana UI & VDT (install browsers later)
+
+python-dotenv==1.0.1

@@ -1,8 +1,10 @@
 # src/tests/functional/test_postgres_basic.py
 
+import pytest
 from src.fixtures.db_fixtures import pg_cursor, unique_name, cleanup_table, cleanup_schema
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_create_table(pg_cursor):
     table_name = unique_name("test_table")
     pg_cursor.execute(f"CREATE TABLE {table_name}(id SERIAL PRIMARY KEY, name TEXT);")
@@ -11,7 +13,8 @@ def test_create_table(pg_cursor):
     assert result == []
     cleanup_table(pg_cursor, table_name)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_insert_data(pg_cursor):
     table_name = unique_name("test_table")
     pg_cursor.execute(f"CREATE TABLE {table_name}(id SERIAL PRIMARY KEY, name TEXT);")
@@ -21,7 +24,8 @@ def test_insert_data(pg_cursor):
     assert result["name"] == "Alice"
     cleanup_table(pg_cursor, table_name)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_create_multiple_databases(pg_cursor):
     # Note: PostgreSQL does not allow creating DB from the same connection, normally need a superuser or separate connection
     # For isolation, we just create schemas instead
@@ -37,7 +41,8 @@ def test_create_multiple_databases(pg_cursor):
     for schema in schemas:
         cleanup_schema(pg_cursor, schema)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_create_tables_in_schemas(pg_cursor):
     schemas = [unique_name(f"schema{i}") for i in range(1, 4)]
     tables = ["users", "products", "shops"]
@@ -51,7 +56,8 @@ def test_create_tables_in_schemas(pg_cursor):
     for schema in schemas:
         cleanup_schema(pg_cursor, schema)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_insert_data_in_multiple_schemas(pg_cursor):
     schemas = [unique_name(f"schema{i}") for i in range(1, 4)]
     tables = ["users", "products", "shops"]
@@ -78,7 +84,8 @@ def test_insert_data_in_multiple_schemas(pg_cursor):
     for schema in schemas:
         cleanup_schema(pg_cursor, schema)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_query_inserted_data(pg_cursor):
     table_name = unique_name("query_table")
     pg_cursor.execute(f"CREATE TABLE {table_name}(id SERIAL PRIMARY KEY, name TEXT);")
@@ -88,7 +95,8 @@ def test_query_inserted_data(pg_cursor):
     assert result["name"] == "Bob"
     cleanup_table(pg_cursor, table_name)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_delete_data(pg_cursor):
     table_name = unique_name("delete_table")
     pg_cursor.execute(f"CREATE TABLE {table_name}(id SERIAL PRIMARY KEY, name TEXT);")
@@ -99,7 +107,8 @@ def test_delete_data(pg_cursor):
     assert result == []
     cleanup_table(pg_cursor, table_name)
 
-
+@pytest.mark.functional
+@pytest.mark.postgres
 def test_update_data(pg_cursor):
     table_name = unique_name("update_table")
     pg_cursor.execute(f"CREATE TABLE {table_name}(id SERIAL PRIMARY KEY, name TEXT);")
