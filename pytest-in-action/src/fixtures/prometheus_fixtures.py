@@ -41,7 +41,8 @@ from pathlib import Path
 from datetime import datetime
 import time
 
-PROJECT_ROOT = Path(__file__).parents[4]
+PROJECT_ROOT = Path(os.environ.get("PROJECT_ROOT",
+                                   os.environ.get("GITHUB_WORKSPACE", Path(__file__).parents[4])))
 PROM_RULE_DIR = PROJECT_ROOT / "AutoTest-in-Action/pytest-in-action/configs/prometheus/rules/generated"
 PROM_RELOAD_URL = f"{PROMETHEUS_URL}/-/reload"
 PROM_RULES_API = f"{PROMETHEUS_URL}/api/v1/rules"

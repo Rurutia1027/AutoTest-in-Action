@@ -41,7 +41,12 @@ jobs:
             sleep 30
             docker compose -f docker-compose.yml ps
 
-             
+      - name: Create Prometheus rules folder
+        run: |
+          chmod 777 $GITHUB_WORKSPACE/pytest-in-action/configs/prometheus/rules
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+
       - name: Run PyTest
         run: |
           pytest src/tests \
