@@ -1,45 +1,33 @@
-# import requests
-# import pytest
+import requests
+import pytest
 
-# from src.fixtures.prometheus_fixtures import prometheus_url
-# from src.fixtures.prometheus_fixtures import prometheus_rule_context
+from src.fixtures.prometheus_fixtures import prometheus_url
 
 
-# @pytest.mark.functional
-# @pytest.mark.prometheus
-# class TestPrometheusRules:
-#     def test_rules_loaded(self, prometheus_url):
-#         resp = requests.get(f"{prometheus_url}/api/v1/rules")
-#         assert resp.status_code == 200
-#         data = resp.json()["data"]["groups"]
-#         assert data == []
+@pytest.mark.functional
+@pytest.mark.prometheus
+class TestPrometheusRules:
 
-#     def test_recording_rule_present(self, prometheus_url, prometheus_rule_context):
-#         ts = prometheus_rule_context["timestamp"]
-#         resp = requests.get(f"{prometheus_url}/api/v1/rules")
-#         assert resp.status_code == 200
+    def test_recording_rules_present(self, prometheus_url):
+        resp = requests.get(f"{prometheus_url}/api/v1/rules")
+        assert resp.status_code == 200
 
-#         groups = resp.json()["data"]["groups"]
-#         records = [
-#             r["name"]
-#             for g in groups
-#             for r in g["rules"]
-#             if r["type"] == "recording"
-#         ]
+        groups = resp.json()["data"]["groups"]
+        recording_rules = {
+            r["name"] for g in groups if g["name"] == "test_recording_group"
+            for r in g["rules"] if r["type"] == "recording"
+        }
 
-#         assert any(ts in r for r in records)
+        assert "test_pg_connections" in recording_rules, "Recording rule test_pg_connections not found"
 
-#     def test_alert_rule_present(self, prometheus_url, prometheus_rule_context):
-#         ts = prometheus_rule_context["timestamp"]
+    def test_alerting_rules_present(self, prometheus_url):
+        resp = requests.get(f"{prometheus_url}/api/v1/rules")
+        assert resp.status_code == 200
 
-#         resp = requests.get(f"{prometheus_url}/api/v1/rules")
-#         groups = resp.json()["data"]["groups"]
+        groups = resp.json()["data"]["groups"]
+        alerting_rules = {
+            r["name"] for g in groups if g["name"] == "test_alert_group"
+            for r in g["rules"] if r["type"] == "alerting"
+        }
 
-#         alerts = [
-#             r["name"]
-#             for g in groups
-#             for r in g["rules"]
-#             if r["type"] == "alerting"
-#         ]
-
-#         assert any(ts in a for a in alerts)
+        assert "TestPostgresConnectionsHigh" in alerting_rules, "Alerting rule TestPostgresConnectionsHigh not found"

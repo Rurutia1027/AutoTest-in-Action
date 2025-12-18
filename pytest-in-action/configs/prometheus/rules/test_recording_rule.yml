@@ -1,0 +1,5 @@
+groups:
+- name: test_recording_group
+  rules:
+  - record: test_pg_connections
+    expr: pg_stat_activity_count
