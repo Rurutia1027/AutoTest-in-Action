@@ -18,9 +18,7 @@ def grafana_context():
     admin_user = os.getenv("GRAFANA_ADMIN_USER", "admin")
     admin_password = os.getenv("GRAFANA_ADMIN_PASS", "admin")
 
-    ctx = GrafanaContext(base_url=base_url, admin_user=admin_user, admin_password=admin_password)
-    ctx.bootstrap_token()
-    return ctx
+    return GrafanaContext(base_url=base_url, admin_user=admin_user, admin_password=admin_password)
 
 
 @pytest.fixture
