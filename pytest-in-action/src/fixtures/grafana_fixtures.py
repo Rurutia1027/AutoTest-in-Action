@@ -24,3 +24,18 @@ def grafana_context():
 @pytest.fixture
 def grafana_request(grafana_context: GrafanaContext):
     return grafana_context.request
+
+
+import uuid
+
+
+@pytest.fixture(scope="session")
+def unique_dashboard(title_prefix="TestDashboard"):
+    return {
+        "dashboard": {
+            "title": f"{title_prefix}-{uuid.uuid4().hex[:6]}",
+            "panels": [],
+            "schemaVersion": 27
+        },
+        "overwrite": True
+    }
