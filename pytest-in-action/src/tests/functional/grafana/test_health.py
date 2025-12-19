@@ -1,7 +1,8 @@
-# tests/functional/grafana/health/test_grafana_health.py
+# tests/functional/grafana/health/test_health.py
 
 import pytest
-from src.fixtures.grafana_fixtures import grafana_context, grafana_request
+from src.fixtures.grafana_fixtures import grafana_request, grafana_context
+
 
 @pytest.mark.functional
 @pytest.mark.grafana

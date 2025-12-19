@@ -3,7 +3,7 @@ import pytest
 
 from dotenv import load_dotenv
 
-from fixtures.grafana_bootstrap import GrafanaContext
+from src.fixtures.grafana_bootstrap import GrafanaContext
 
 # load env variables
 load_dotenv()
