@@ -39,3 +39,14 @@ def unique_dashboard(title_prefix="TestDashboard"):
         },
         "overwrite": True
     }
+
+@pytest.fixture(scope="session")
+def unique_datasource(name_prefix="MyPrometheus"):
+    return {
+        "name": f"{name_prefix}-{uuid.uuid4().hex[:6]}",
+        "type": "prometheus",
+        "access": "proxy",
+        "url": "http://prometheus:9090",
+        "isDefault": False,
+        "jsonData": {}
+    }
