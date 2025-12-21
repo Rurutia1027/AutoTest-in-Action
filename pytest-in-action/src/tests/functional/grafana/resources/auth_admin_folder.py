@@ -8,6 +8,8 @@ from src.fixtures.grafana_fixtures import auth_admin_ctx, grafana_contexts, graf
 
 @pytest.mark.functional
 @pytest.mark.grafana
+@pytest.mark.folder
+@pytest.mark.admin
 def test_admin_folder_crud(auth_admin_ctx):
     # Create
     folder_title = f"rbac-folder-test-{uuid.uuid4().hex[:6]}"
