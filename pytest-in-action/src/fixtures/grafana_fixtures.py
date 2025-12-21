@@ -3,50 +3,44 @@ import pytest
 
 from dotenv import load_dotenv
 
-from src.fixtures.grafana_bootstrap import GrafanaContext
+from contexts.grafana_context import GrafanaContext
 
 # load env variables
 load_dotenv()
 
 GRAFANA_URL = os.environ.get("GRAFANA_URL")
-GRAFANA_TOKEN = os.environ.get("GRAFANA_TOKEN")
 
 
 @pytest.fixture(scope="session")
-def grafana_context():
-    base_url = os.getenv("GRAFANA_URL", "http://localhost:3000")
-    admin_user = os.getenv("GRAFANA_ADMIN_USER", "admin")
-    admin_password = os.getenv("GRAFANA_ADMIN_PASS", "admin")
+def grafana_org(root_admin_ctx):
+    org = root_admin_ctx.request(
+        "POST",
+        "/api/orgs",
+        json={"name": "rbac-test-org"}
+    )
 
-    return GrafanaContext(base_url=base_url, admin_user=admin_user, admin_password=admin_password)
-
-
-@pytest.fixture
-def grafana_request(grafana_context: GrafanaContext):
-    return grafana_context.request
-
-
-import uuid
+    root_admin_ctx.request(
+        "POST",
+        f"/api/user/using/{org['id']}"
+    )
+    return org[id]
 
 
 @pytest.fixture(scope="session")
-def unique_dashboard(title_prefix="TestDashboard"):
-    return {
-        "dashboard": {
-            "title": f"{title_prefix}-{uuid.uuid4().hex[:6]}",
-            "panels": [],
-            "schemaVersion": 27
-        },
-        "overwrite": True
-    }
-
-@pytest.fixture(scope="session")
-def unique_datasource(name_prefix="MyPrometheus"):
-    return {
-        "name": f"{name_prefix}-{uuid.uuid4().hex[:6]}",
-        "type": "prometheus",
-        "access": "proxy",
-        "url": "http://prometheus:9090",
-        "isDefault": False,
-        "jsonData": {}
-    }
+def grafana_contexts(root_admin_ctx, grafana_org):
+    contexts = {}
+    for role in ["Admin", "Editor", "Viewer"]:
+        sa = root_admin_ctx.request(
+            "POST",
+            "/api/serviceaccounts",
+            json={"name": f"sa-{role.lower()}", "role": role}
+        )
+        token = root_admin_ctx.request(
+            "POST",
+            f"/api/serviceaccounts/{sa['id']}/tokens",
+            json={"name": "rbac", "secondsToLive": 0}
+        )
+        contexts[role] = GrafanaContext(
+            GRAFANA_URL, token["key"], role, grafana_org
+        )
+    return contexts
