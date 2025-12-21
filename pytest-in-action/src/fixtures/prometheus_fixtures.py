@@ -35,3 +35,13 @@ def query_range_prometheus():
         return r.json()
 
     return _query_range
+
+
+import uuid
+
+def random_suffix() -> str:
+    """
+    Generate a short random suffix using UUID4.
+    Useful for creating unique names for test resources.
+    """
+    return uuid.uuid4().hex[:8]  # 8-character hex string
