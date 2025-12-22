@@ -12,7 +12,7 @@ ADMIN_USER = os.getenv("ADMIN_USER", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def root_admin_ctx():
     return RootGrafanaContext(
         base_url=GRAFANA_URL,
@@ -21,7 +21,7 @@ def root_admin_ctx():
     )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def grafana_org_id(root_admin_ctx):
     org = root_admin_ctx.request(
         "POST",
@@ -40,7 +40,7 @@ def grafana_org_id(root_admin_ctx):
     return org_id
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def grafana_contexts(root_admin_ctx, grafana_org_id):
     contexts = {}
 
@@ -70,17 +70,17 @@ def grafana_contexts(root_admin_ctx, grafana_org_id):
     return contexts
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def auth_admin_ctx(grafana_contexts):
     return grafana_contexts["Admin"]
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def auth_editor_ctx(grafana_contexts):
     return grafana_contexts["Editor"]
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture
 def auth_viewer_ctx(grafana_contexts):
     return grafana_contexts["Viewer"]
 
