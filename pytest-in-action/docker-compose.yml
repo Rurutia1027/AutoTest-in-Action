@@ -14,6 +14,7 @@ services:
       - "5432:5432"
     volumes:
       - pytest_pg_data:/var/lib/postgresql/data
+      - ./configs/postgres/init_grafana.sql:/docker-entrypoint-initdb.d/init_grafana.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U test" ]
       interval: 10s
@@ -68,12 +69,22 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: always
+    environment:
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_HOST=postgres:5432
+      - GF_DATABASE_NAME=grafana
+      - GF_DATABASE_USER=grafana
+      - GF_DATABASE_PASSWORD=grafana
+      - GF_DATABASE_SSL_MODE=disable
+    depends_on:
+      - postgres
     ports:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./configs/grafana/provisioning:/etc/grafana/provisioning
       - ./configs/grafana/dashboards:/etc/grafana/dashboards
+      - ./configs/grafana/grafana.ini:/etc/grafana/grafana.ini
 
 volumes:
   pytest_pg_data:
